@@ -96,6 +96,7 @@ private void LibrarianCount(){
         lblUserNames = new javax.swing.JLabel();
         lblPassword = new javax.swing.JLabel();
         pswd = new javax.swing.JPasswordField();
+        btnDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -229,6 +230,14 @@ private void LibrarianCount(){
 
         lblPassword.setText("Password");
 
+        btnDelete.setText("Delete");
+        btnDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -239,22 +248,21 @@ private void LibrarianCount(){
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addComponent(lblUserNames, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblPassword))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(53, 53, 53)
-                                .addComponent(btnSave)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEdit)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnClear)))
-                        .addGap(0, 35, Short.MAX_VALUE)))
+                        .addGap(30, 30, 30)
+                        .addComponent(lblUserNames, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblPassword))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addComponent(btnSave)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEdit)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnClear)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDelete)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtLibrarianLastName, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
@@ -298,7 +306,8 @@ private void LibrarianCount(){
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave)
                     .addComponent(btnEdit)
-                    .addComponent(btnClear))
+                    .addComponent(btnClear)
+                    .addComponent(btnDelete))
                 .addContainerGap(225, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel4Layout.createSequentialGroup()
@@ -354,7 +363,7 @@ private void LibrarianCount(){
         PreparedStatement ps;      
         String sql = ("INSERT INTO `librariantbl`(`librarianID`, `firstName`, `lastName`, `userName`, `password`) VALUES (?,?,?,?,?)");
             ps = MyConnection.getConnection().prepareStatement(sql);           
-//           
+          DisplayLibrarian();
             ps.setInt(1,librarinID);
             ps.setString(2,firstName);
             ps.setString(3,lastName);
@@ -377,7 +386,7 @@ private void LibrarianCount(){
 int key = 0;
     private void tblRegisterdLibrarianMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblRegisterdLibrarianMouseClicked
         // TODO add your handling code here:
-        DefaultTableModel tableModel=(DefaultTableModel)tblRegisterdLibrarian.getModel();
+                  DefaultTableModel tableModel=(DefaultTableModel)tblRegisterdLibrarian.getModel();
                   int myIndex  = tblRegisterdLibrarian.getSelectedRow();
                   key = Integer.valueOf(tableModel.getValueAt(myIndex, 0).toString());
                   txtLibrarianFirstName.setText(tableModel.getValueAt(myIndex, 1).toString());
@@ -435,6 +444,27 @@ int key = 0;
         
     }//GEN-LAST:event_btnEditActionPerformed
 
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if (key == 0){
+            JOptionPane.showMessageDialog(this,"Select A Librarian!!!");
+        
+        }else{
+            try{
+             PreparedStatement ps;        
+            String sql = "DELETE FROM `librariantbl` WHERE `librarianID`="+key;
+            ps = MyConnection.getConnection().prepareStatement(sql);           
+            ps.execute(sql);
+            JOptionPane.showMessageDialog(this," Deleted Successfuly!!");
+           DisplayLibrarian();
+            
+            }catch(Exception e){
+              System.out.println(e.getMessage());
+            
+            }
+        
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -472,6 +502,7 @@ int key = 0;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnSave;
     private javax.swing.JPanel jPanel1;
