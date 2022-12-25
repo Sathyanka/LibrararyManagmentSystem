@@ -381,7 +381,8 @@ int key = 0;
                   int myIndex  = tblRegisterdStudents.getSelectedRow();
                   key = Integer.valueOf(tableModel.getValueAt(myIndex, 0).toString());
                   txtStudentName.setText(tableModel.getValueAt(myIndex, 1).toString());
-                 
+                 combxDepartment.setSelectedItem(String.valueOf(tableModel.getValueAt(myIndex, 2).toString()));
+                  cmbYear.setSelectedItem(String.valueOf(tableModel.getValueAt(myIndex, 3).toString()));
     }//GEN-LAST:event_tblRegisterdStudentsMouseClicked
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
